@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """This is the file DBStorage class for AirBnB"""
 from models.base_model import Base
-from models.user import User
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
@@ -9,7 +8,7 @@ from models.place import Place
 from models.review import Review
 import os
 from sqlalchemy import (create_engine)
-from sqlalchemy.orm import sessionmaker, scoped_session, relationship
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 
 class DBStorage:
@@ -47,11 +46,10 @@ class DBStorage:
             if cls.__name__:
                 class_to_return = [cls.__name__]
         else:
-            class_to_return = [User, State]
+            class_to_return = [State, City]
         dic = {}
         for class_to_print in class_to_return:
-            query = my_session.query(class_to_print)
-            class_list = query.all()
+            class_list = my_session.query(class_to_print).all()
             for item in class_list:
                 key = "{}.{}".format(type(item).__name__, item.id)
                 dic.update({key: item})
@@ -62,7 +60,8 @@ class DBStorage:
         Args:
             obj: given object
         """
-        self.__session.add(obj)
+        if obj is not None:
+            self.__session.add(obj)
 
     def save(self):
         """Save to database
