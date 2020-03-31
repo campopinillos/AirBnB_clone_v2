@@ -53,7 +53,7 @@ class DBStorage:
             class_to_return = [User, State]
         dic = {}
         for class_to_print in class_to_return:
-            query = New_session.query(class_to_print)
+            query = my_session.query(class_to_print)
             class_list = query.all()
             for item in class_list:
                 key = "{}.{}".format(type(item).__name__, item.id)
