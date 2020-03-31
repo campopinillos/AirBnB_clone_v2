@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 """This is the file DBStorage class for AirBnB"""
-
 from models.base_model import Base
 from models.user import User
 from models.state import State
@@ -9,9 +8,8 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 import os
-
 from sqlalchemy import (create_engine)
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session, relationship
 
 
 class DBStorage:
@@ -20,7 +18,6 @@ class DBStorage:
     deserializes JSON fi
     le to instances
     Attributes:
-
         __engine path to the JSON file
         __session: objects will be stored
     """
@@ -58,5 +55,29 @@ class DBStorage:
             for item in class_list:
                 key = "{}.{}".format(type(item).__name__, item.id)
                 dic.update({key: item})
-
         return dic
+
+    def new(self, obj):
+        """Add new obj
+        Args:
+            obj: given object
+        """
+        self.__session.add(obj)
+
+    def save(self):
+        """Save to database
+        """
+        self.__session.commit()
+
+    def reload(self):
+        """Create the current database session
+        """
+        Base.metadata.create_all(self.__engine)
+        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session = scoped_session(Session)
+        self.__session = session()
+
+    def delete(self, obj=None):
+        """delete obj from __objects if it’s inside"""
+        if obj is not None:
+            self.__session.delete(obj)
