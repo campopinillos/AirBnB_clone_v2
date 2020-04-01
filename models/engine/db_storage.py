@@ -42,12 +42,9 @@ class DBStorage:
     def all(self, cls=None):
         """query of object depending of the class name
          if cls=none query of all type of objects """
+
         my_session = self.__session
-        if cls:
-            if cls.__name__:
-                class_to_return = [cls.__name__]
-        else:
-            class_to_return = [State, City, User, Place, Review, Amenity]
+        class_to_return = [State, City, User, Place, Review, Amenity]
         dic = {}
         for class_to_print in class_to_return:
             class_list = my_session.query(class_to_print).all()
