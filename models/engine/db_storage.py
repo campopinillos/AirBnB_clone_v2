@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 """This is the file DBStorage class for AirBnB"""
-from models.base_model import Base
+from models.base_model import Base, BaseModel
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 import os
-from sqlalchemy import (create_engine)
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
 
