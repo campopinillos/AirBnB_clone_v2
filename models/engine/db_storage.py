@@ -4,6 +4,7 @@ from models.base_model import Base, BaseModel
 from models.state import State
 from models.city import City
 from models.amenity import Amenity
+from models.user import User
 from models.place import Place
 from models.review import Review
 import os
@@ -46,7 +47,7 @@ class DBStorage:
             if cls.__name__:
                 class_to_return = [cls.__name__]
         else:
-            class_to_return = [State, City]
+            class_to_return = [State, City, User]
         dic = {}
         for class_to_print in class_to_return:
             class_list = my_session.query(class_to_print).all()
