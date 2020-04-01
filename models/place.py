@@ -36,10 +36,18 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
+    __tablename__ = 'place_amenity'
+    place_id = Column(String(60), ForeignKey("places.id"), nullable=False)
+    amenity_id = Column(String(60), primary_key=True,
+                        ForeignKey("amenities.id"), nullable=False)
+
     if os.getenv('HBNB_TYPE_STORAGE') == "db":
         reviews = relationship("Review",
                                backref='place',
                                cascade='all, delete')
+        amenities = relationship("Amenity",
+                                 secondary='place',
+                                 viewonly=True)
 
     else:
         @property
@@ -48,6 +56,16 @@ class Place(BaseModel, Base):
             all_reviews = models.storage.all(Review)
             places_reviews = []
             for rev_ins in all_reviews.values():
-                if rev_ins.state_id == self.id:
+                if rev_ins.place_id == self.id:
                     places_reviews.append(rev_ins)
             return places_reviews
+
+        @property
+        def amenities(self):
+            """ Returns amenities """
+            all_amenities = models.storage.all(Amenity)
+            places_amenities = []
+            for ame_ins in all_amenities.values():
+                if ame_ins.place_id == self.id:
+                    places_amenities.append(ame_ins)
+            return places_amenities
