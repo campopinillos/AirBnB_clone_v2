@@ -6,6 +6,14 @@ from sqlalchemy import Column, Integer, String, Float, ForeignKey, MetaData
 from sqlalchemy.orm import relationship, backref
 import models
 import os
+from sqlalchemy import Table
+
+place_amenity = Table('association', Base.metadata,
+                      Column('place_id', String(60), ForeignKey('places.id'),
+                             primary_key=True, nullable=False),
+                      Column('amenity_id', String(60),
+                             ForeignKey('amenities.id'),
+                             primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -36,18 +44,13 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
-    __tablename__ = 'place_amenity'
-    place_id = Column(String(60), ForeignKey("places.id"), nullable=False)
-    amenity_id = Column(String(60), primary_key=True,
-                        ForeignKey("amenities.id"), nullable=False)
-
     if os.getenv('HBNB_TYPE_STORAGE') == "db":
         reviews = relationship("Review",
                                backref='place',
                                cascade='all, delete')
         amenities = relationship("Amenity",
-                                 secondary='place',
-                                 viewonly=True)
+                                 secondary=place_amenity,
+                                 viewonly=False)
 
     else:
         @property
