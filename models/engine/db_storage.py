@@ -47,7 +47,7 @@ class DBStorage:
             if cls.__name__:
                 class_to_return = [cls.__name__]
         else:
-            class_to_return = [State, City, User, Place]
+            class_to_return = [State, City, User, Place, Review]
         dic = {}
         for class_to_print in class_to_return:
             class_list = my_session.query(class_to_print).all()
