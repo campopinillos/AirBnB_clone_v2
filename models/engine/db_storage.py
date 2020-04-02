@@ -49,7 +49,7 @@ class DBStorage:
         for class_to_print in class_to_return:
             class_list = my_session.query(class_to_print).all()
             for item in class_list:
-                key = "{}.{}".format(type(item).__name__, item.id)
+                key = "{}.{}".format(item.__class__.__name__, item.id)
                 dic.update({key: item})
         return dic
 
