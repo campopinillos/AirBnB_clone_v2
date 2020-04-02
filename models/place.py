@@ -79,4 +79,4 @@ class Place(BaseModel, Base):
             Amenity.id to the attribute amenity_ids"""
             str_obj = amenity_obj.__class_.__name__
             if str_obj == "Amenity":
-                self.amenity_ids.append(amenity_obj.id)
+                self.amenity_ids.append(str(amenity_obj.id))
