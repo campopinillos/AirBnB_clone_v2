@@ -42,16 +42,16 @@ class DBStorage:
     def all(self, cls=None):
         """query of object depending of the class name
          if cls=none query of all type of objects """
-
         my_session = self.__session
         class_to_return = [State, City, User, Place, Review, Amenity]
         dic = {}
-        for class_to_print in class_to_return:
-            class_list = my_session.query(class_to_print).all()
-            for item in class_list:
-                key = "{}.{}".format(item.__class__.__name__, item.id)
-                dic.update({key: item})
-        return dic
+        if cls is None:
+            for class_to_print in class_to_return:
+                class_list = my_session.query(class_to_print).all()
+                for item in class_list:
+                    key = "{}.{}".format(item.__class__.__name__, item.id)
+                    dic.update({key: item})
+            return dic
 
     def new(self, obj):
         """Add new obj
