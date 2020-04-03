@@ -17,6 +17,9 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models.engine.file_storage import FileStorage
+from models.engine.db_storage import DBStorage
+import models
+
 
 
 class TestConsole(unittest.TestCase):
@@ -72,7 +75,11 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("quit")
             self.assertEqual('', f.getvalue())
 
-    def test_create(self):
+    def test_EOF(self):
+        with patch("sys.stdout", new=StringIO()):
+            self.assertTrue(self.consol.onecmd("EOF"))
+
+    def test_create_1(self):
         """Test create command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create")
@@ -198,7 +205,7 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "** no instance found **\n", f.getvalue())
 
-    def test_destroy(self):
+    def test_destroy_1(self):
         """Test alternate destroy command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("Galaxy.destroy()")
@@ -209,7 +216,7 @@ class TestConsole(unittest.TestCase):
             self.assertEqual(
                 "** no instance found **\n", f.getvalue())
 
-    def test_update(self):
+    def test_update_1(self):
         """Test alternate destroy command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("sldkfjsl.update()")
@@ -231,6 +238,55 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("User.update(" + my_id + ", name)")
             self.assertEqual(
                 "** value missing **\n", f.getvalue())
+
+    @unittest.skipIf(type(models.storage) == DBStorage, "Test_DB")
+    def test_create(self):
+        """Test create command inpout"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create User")
+            user = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all User")
+            self.assertIn(user, f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create State")
+            ste = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all State")
+            self.assertIn(ste, f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create City")
+            city1 = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all City")
+            self.assertIn(city1, f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create Place")
+            plc = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all Place")
+            self.assertIn(plc, f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create Review")
+            rew = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all Review")
+            self.assertIn(rew, f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create Amenity")
+            amn = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all Amenity")
+            self.assertIn(amn, f.getvalue())
+
+    @unittest.skipIf(type(models.storage) == DBStorage, "Test_DB")
+    def test_kwargs_dict(self):
+        with patch("sys.stdout", new=StringIO()) as f:
+            get = ("create City name='Bogota'")
+            self.consol.onecmd(get)
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.consol.onecmd("all City")
+            self.assertIn("'name': 'Bogota'", f.getvalue())
 
 if __name__ == "__main__":
     unittest.main()
