@@ -78,7 +78,7 @@ class TestConsole(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()):
             self.assertTrue(self.consol.onecmd("EOF"))
 
-    def test_create_1(self):
+    def test_create(self):
         """Test create command inpout"""
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create")
@@ -162,8 +162,8 @@ class TestConsole(unittest.TestCase):
                 "** no instance found **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all User")
-            obj = f.getvalue()
-        my_id = obj[obj.find('(')+1:obj.find(')')]
+            object1 = f.getvalue()
+        my_id = object1[object1.find('(')+1:object1.find(')')]
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("update User " + my_id)
             self.assertEqual(
@@ -227,8 +227,8 @@ class TestConsole(unittest.TestCase):
                 "** no instance found **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all User")
-            obj = f.getvalue()
-        my_id = obj[obj.find('(')+1:obj.find(')')]
+            object1 = f.getvalue()
+        my_id = object1[object1.find('(')+1:object1.find(')')]
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("User.update(" + my_id + ")")
             self.assertEqual(
@@ -239,8 +239,8 @@ class TestConsole(unittest.TestCase):
                 "** value missing **\n", f.getvalue())
 
     @unittest.skipIf(type(models.storage) == DBStorage, "Test_DB")
-    def test_create(self):
-        """Test create command inpout"""
+    def test_create_1(self):
+        """Test create command input"""
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create User")
             user = f.getvalue().strip()
@@ -280,12 +280,38 @@ class TestConsole(unittest.TestCase):
 
     @unittest.skipIf(type(models.storage) == DBStorage, "Test_DB")
     def test_kwargs_dict(self):
+        """Test kwargs"""
         with patch("sys.stdout", new=StringIO()) as f:
             get = ("create City name='Bogota'")
             self.consol.onecmd(get)
         with patch("sys.stdout", new=StringIO()) as f:
             self.consol.onecmd("all City")
             self.assertIn("'name': 'Bogota'", f.getvalue())
+
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "Test_DB")
+    def test_update_2(self):
+        """Test alternate destroy command inpout"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("mrrobot.update()")
+            self.assertEqual(
+                "** class doesn't exist **\n", f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("User.update(whateveruser)")
+            self.assertEqual(
+                "** no instance found **\n", f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all User")
+            object1 = f.getvalue()
+        id_obj = object1[object1.find('(')+1:object1.find(')')]
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("User.update(" + id_obj + ")")
+            self.assertEqual(
+                "** attribute name missing **\n", f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("User.update(" + id_obj + ", name)")
+            self.assertEqual(
+                "** value missing **\n", f.getvalue())
+
 
 if __name__ == "__main__":
     unittest.main()
