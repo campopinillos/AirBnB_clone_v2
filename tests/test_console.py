@@ -21,7 +21,6 @@ from models.engine.db_storage import DBStorage
 import models
 
 
-
 class TestConsole(unittest.TestCase):
     """this will test the console"""
 
