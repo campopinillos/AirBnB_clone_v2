@@ -68,6 +68,11 @@ class TestReview(unittest.TestCase):
         """test if dictionary works"""
         self.assertEqual('to_dict' in dir(self.rev), True)
 
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "Test_DB")
+    def test_save(self):
+        """Test save"""
+        self.review.save()
+        self.assertFalse(self.review.created_at == self.review.updated_at)
 
 if __name__ == "__main__":
     unittest.main()

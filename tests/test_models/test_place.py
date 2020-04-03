@@ -92,6 +92,12 @@ class TestPlace(unittest.TestCase):
         """test if dictionary works"""
         self.assertEqual('to_dict' in dir(self.place), True)
 
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "Test_DB")
+    def test_save(self):
+        """Test save"""
+        self.place.save()
+        self.assertFalse(self.place.created_at == self.place.updated_at)
+
 
 if __name__ == "__main__":
     unittest.main()
