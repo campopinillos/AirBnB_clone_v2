@@ -278,6 +278,16 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("all Amenity")
             self.assertIn(amn, f.getvalue())
 
+    @unittest.skipIf(type(models.storage) == FileStorage, "Test_FileStorage")
+    def test_kwargs_dict_1(self):
+        """Test kwargs"""
+        with patch("sys.stdout", new=StringIO()) as f:
+            get = ("create City name='Bogota'")
+            self.consol.onecmd(get)
+        with patch("sys.stdout", new=StringIO()) as f:
+            self.consol.onecmd("all City")
+            self.assertIn("'name': 'Bogota'", f.getvalue())
+
     @unittest.skipIf(type(models.storage) == DBStorage, "Test_DB")
     def test_kwargs_dict(self):
         """Test kwargs"""
