@@ -61,7 +61,7 @@ class TestAmenity(unittest.TestCase):
     def test_to_dict_Amenity(self):
         """test if dictionary works"""
         self.assertEqual('to_dict' in dir(self.amenity), True)
-    
+
     @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "Test_DB")
     def test_save(self):
         """Test save"""

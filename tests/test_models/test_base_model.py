@@ -63,12 +63,12 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(self.base.__class__.__name__, 'BaseModel')
         self.assertIsInstance(base_dict['created_at'], str)
         self.assertIsInstance(base_dict['updated_at'], str)
-    
+
     @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "Test_DB")
     def test_save(self):
         """Test save"""
-        self.BaseModel.save()
-        self.assertFalse(self.BaseModel.created_at == self.BaseModel.updated_at)
+        self.base.save()
+        self.assertFalse(self.base.created_at == self.base.updated_at)
 
 
 if __name__ == "__main__":
