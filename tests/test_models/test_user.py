@@ -71,6 +71,11 @@ class TestUser(unittest.TestCase):
         """test if dictionary works"""
         self.assertEqual('to_dict' in dir(self.user), True)
 
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "Test_DB")
+    def test_save(self):
+        """Test save"""
+        self.user.save()
+        self.assertFalse(self.user.created_at == self.user.updated_at)
 
 if __name__ == "__main__":
     unittest.main()
