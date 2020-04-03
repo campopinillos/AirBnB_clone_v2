@@ -15,8 +15,10 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.engine.base import Engine
 from sqlalchemy.orm import sessionmaker
 import models
+import os
 
 
+@unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == "db", "Test_DB")
 class TestDBstorage(unittest.TestCase):
     """Unittest on mysqlDB"""
 
