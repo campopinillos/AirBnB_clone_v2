@@ -21,10 +21,20 @@ class TestDBstorage(unittest.TestCase):
     """Unittest on mysqlDB"""
 
     def test_pep8(self):
-        """Test pep8 styling."""
+        """Test pep8 styling"""
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/engine/db_storage.py'])
         self.assertEqual(p.total_errors, 0, "fix pep8")
+    
+    def test_docstr(self):
+        """Test Docstrings"""
+        self.assertIsNone(DBStorage.__doc__)
+        self.assertIsNone(DBStorage.__init__.__doc__)
+        self.assertIsNone(DBStorage.all.__doc__)
+        self.assertIsNone(DBStorage.new.__doc__)
+        self.assertIsNone(DBStorage.save.__doc__)
+        self.assertIsNone(DBStorage.delete.__doc__)
+        self.assertIsNone(DBStorage.reload.__doc__)
 
 if __name__ == "__main__":
     unittest.main()
