@@ -71,7 +71,7 @@ These are the files with the custom funtions and system calls, each one contains
 ```
 3. Change directory to simple_shell
 ```
-> cd AirBnB_clone/
+> cd AirBnB_clone_v2/
 ``` 
 4. Execute ./console.py
 ```
