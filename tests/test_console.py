@@ -279,6 +279,46 @@ class TestConsole(unittest.TestCase):
             self.assertIn(amn, f.getvalue())
 
     @unittest.skipIf(type(models.storage) == FileStorage, "Test_FileStorage")
+    def test_create_1(self):
+        """Test create command input"""
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create User")
+            user = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all User")
+            self.assertIn(user, f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create State")
+            ste = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all State")
+            self.assertIn(ste, f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create City")
+            city1 = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all City")
+            self.assertIn(city1, f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create Place")
+            plc = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all Place")
+            self.assertIn(plc, f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create Review")
+            rew = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all Review")
+            self.assertIn(rew, f.getvalue())
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create Amenity")
+            amn = f.getvalue().strip()
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all Amenity")
+            self.assertIn(amn, f.getvalue())
+
+    @unittest.skipIf(type(models.storage) == FileStorage, "Test_FileStorage")
     def test_kwargs_dict_1(self):
         """Test kwargs"""
         with patch("sys.stdout", new=StringIO()) as f:
