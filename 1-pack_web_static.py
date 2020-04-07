@@ -7,9 +7,10 @@ from datetime import datetime
 def do_pack():
     """Tar archive"""
     try:
-        filename = "versions/web_static_" + datetime.now().strftime("%Y%m%d%H%M%S") + ".tgz"
+        file = "versions/web_static_{}.tgz".format(
+                datetime.now().strftime("%Y%m%d%H%M%S"))
         local('mkdir -p versions')
-        local('tar -cvzf {} web_static'.format(filename))
-        return filename
+        local('tar -cvzf {} web_static'.format(file))
+        return file
     except:
         return None
