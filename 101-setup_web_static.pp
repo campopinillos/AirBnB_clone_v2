@@ -38,7 +38,7 @@ exec {'exec_5':
 
 exec { 'exec_6':
   require  => Exec['exec_5'],
-  command  => 'sudo sed -i "s/server_name _;/server_name _;\n\tlocation \/hbnb_static\/ {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n\t}/" /etc/nginx/sites-enabled/default',
+  command  => 'sudo sed -i "s/server_name _;/server_name _;\n\tlocation \/hbnb_static\/ {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n}/" /etc/nginx/sites-available/default',
   path     => ['/usr/bin', '/bin'],
   provider => shell,
   returns  => [0,1]
@@ -46,7 +46,7 @@ exec { 'exec_6':
 
 exec {'exec_7':
   require  => Exec['exec_6'],
-  command  => 'sudo service nginx start',
+  command  => 'chown -R ubuntu:ubuntu /data/',
   path     => ['/usr/bin', '/bin', '/usr/sbin'],
   provider => shell,
   returns  => [0,1]
@@ -54,7 +54,7 @@ exec {'exec_7':
 
 exec {'exec_8':
   require  => Exec['exec_7'],
-  command  => 'chown -R ubuntu:ubuntu /data/',
+  command  => 'sudo service nginx restart',
   path     => ['/usr/bin', '/bin'],
   provider => shell,
   returns  => [0,1]
