@@ -24,7 +24,7 @@ exec {'exec_3':
 
 exec {'exec_4':
   require  => Exec['exec_3'],
-  command  => 'echo "Holberton School" | sudo tee /data/web_static/releases/test/index.html',
+  command  => 'echo "Holberton School" | sudo tee /data/web_static/releases/test/index.html > /dev/null',
   path     => ['/usr/bin', '/bin'],
   provider => shell,
 }
@@ -41,7 +41,6 @@ exec { 'exec_6':
   command  => 'sudo sed -i "s/server_name _;/server_name _;\n\tlocation \/hbnb_static\/ {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n}/" /etc/nginx/sites-available/default',
   path     => ['/usr/bin', '/bin'],
   provider => shell,
-  returns  => [0,1]
 }
 
 exec {'exec_7':
@@ -49,7 +48,6 @@ exec {'exec_7':
   command  => 'chown -R ubuntu:ubuntu /data/',
   path     => ['/usr/bin', '/bin', '/usr/sbin'],
   provider => shell,
-  returns  => [0,1]
 }
 
 exec {'exec_8':
