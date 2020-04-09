@@ -38,14 +38,14 @@ exec {'exec_5':
 
 exec { 'exec_6':
   require  => Exec['exec_5'],
-  command  => 'sudo sed -i "s/server_name _;/server_name _;\n\tlocation \/hbnb_static\/ {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n}/" /etc/nginx/sites-available/default',
+  command  => 'chown -R ubuntu:ubuntu /data/',
   path     => ['/usr/bin', '/bin'],
   provider => shell,
 }
 
 exec {'exec_7':
   require  => Exec['exec_6'],
-  command  => 'chown -R ubuntu:ubuntu /data/',
+  command  => 'sed -i "38i \\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t\tautoindex off;\n\t}\n" /etc/nginx/sites-available/default',
   path     => ['/usr/bin', '/bin', '/usr/sbin'],
   provider => shell,
 }
