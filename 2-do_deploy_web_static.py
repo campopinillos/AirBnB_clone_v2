@@ -16,10 +16,10 @@ def do_deploy(archive_path):
     try:
         file = archive_path.split("/")[-1]
         dir = "/data/web_static/releases/" + file.split(".")[0]
-        put(archive_path, "/tmp")
+        put(archive_path, "/tmp/")
         run("sudo mkdir -p {}".format(dir))
-        run("sudo tar -xzf /tmp/{} -C {}".format(file, dir))
-        run("sudo rm /tmp/{}".format(file))
+        run("sudo tar -xzf /tmp/{}.tgz -C {}".format(file, dir))
+        run("sudo rm /tmp/{}.tgz".format(file))
         run("sudo mv {}/web_static/* {}/".format(dir, dir))
         run("sudo rm -rf {}/web_static".format(dir))
         run("sudo rm -rf /data/web_static/current")
