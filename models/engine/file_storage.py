@@ -21,9 +21,9 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """returns a dictionary
+        """Returns a dictionary
         Return:
-            returns a dictionary of __object
+            A dictionary of __object
         """
         if cls:
             object_by_class = {}
@@ -36,7 +36,7 @@ class FileStorage:
             return self.__objects
 
     def new(self, obj):
-        """sets __object to given obj
+        """Sets __object to given obj
         Args:
             obj: given object
         """
@@ -45,7 +45,7 @@ class FileStorage:
             self.__objects[key] = obj
 
     def save(self):
-        """serialize the file path to JSON file path
+        """Serialize the file path to JSON file path
         """
         my_dict = {}
         for key, value in self.__objects.items():
@@ -54,7 +54,7 @@ class FileStorage:
             json.dump(my_dict, f)
 
     def reload(self):
-        """serialize the file path to JSON file path
+        """Serialize the file path to JSON file path
         """
         try:
             with open(self.__file_path, 'r', encoding="UTF-8") as f:
@@ -65,7 +65,11 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """delete obj from __objects if it’s inside"""
+        """Delete obj from __objects if it’s inside"""
         if obj:
             key = "{}.{}".format(type(obj).__name__, obj.id)
             self.__objects.pop(key)
+
+    def close(self):
+        """Close method for deserializing the JSON file to objects"""
+        self.reload()

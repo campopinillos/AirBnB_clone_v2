@@ -39,7 +39,7 @@ class DBStorage:
             Base.metadata.drop_all(bind=self.__engine)
 
     def all(self, cls=None):
-        """query of object depending of the class name
+        """Query of object depending of the class name
          if cls=none query of all type of objects """
         my_session = self.__session
         dic = {}
@@ -76,6 +76,10 @@ class DBStorage:
         self.__session = session()
 
     def delete(self, obj=None):
-        """delete obj from __objects if it’s inside"""
+        """Delete obj from __objects if it’s inside"""
         if obj is not None:
             self.__session.delete(obj)
+
+    def close(self):
+        """Close method on the private session attribute on class Session"""
+        self.__session.close()

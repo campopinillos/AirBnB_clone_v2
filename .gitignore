@@ -5,3 +5,5 @@ test_params_create
 main_delete.py
 versions/web_static_20200407131129.tgz
 versions/web_static_20200407184415.tgz
+main.py
+file.json
