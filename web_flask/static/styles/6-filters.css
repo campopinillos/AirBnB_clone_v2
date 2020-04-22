@@ -56,35 +56,22 @@ button:hover {
     border: 1px solid #DDDDDD;
     border-radius: 4px;
     background: #FAFAFA;
-    padding-bottom: 15px;
+    padding-bottom: 25px;
     height: 300px;
-    overflow-y: hidden;
-}
-.popover:hover {
     overflow-y: auto;
+    scrollbar-width: none;
+    max-height: 300px;
 }
 .amenities .popover {
-    padding: 10px 0;
+    padding: 20px 0;
     margin-left: -5px;
-    margin-top: 0%;
-}
-.amenities .popover ul{
-    margin: 0px;
+    margin-top: 1%;
 }
 .locations .popover {
-    margin-top: 0%;
+    margin-top: 1%;
 }
 .popover ul {
     list-style-type: none;
-    padding-bottom: 10px;
-    padding-left: 10px;
-}
-.popover ul li{
-    padding: 3px;
-    padding-left: 20px;
-}
-.popover ul h2{
-    margin-left: 15px;
 }
 .amenities:hover .popover,
 .locations:hover .popover {
