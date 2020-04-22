@@ -14,6 +14,7 @@ def states_by_id(id):
             return render_template('9-states.html', state=state)
     return render_template('9-states.html')
 
+
 @app.route('/states', strict_slashes=False)
 def states_all():
     """Display States"""
