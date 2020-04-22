@@ -23,6 +23,13 @@ class DBStorage:
     """
     __engine = None
     __session = None
+    __classes = {'BaseModel': BaseModel,
+                 'User': User,
+                 'Place': Place,
+                 'State': State,
+                 'City': City,
+                 'Amenity': Amenity,
+                 'Review': Review}
 
     def __init__(self):
         """Instantiation of base model DBStorage"""
@@ -46,12 +53,13 @@ class DBStorage:
         if not cls:
             class_to_return = [State, City, User, Place, Review, Amenity]
         else:
-            class_to_return = [cls]
+            class_to_return = [DBStorage.__classes[cls]]
+        
         for class_to_print in class_to_return:
             class_list = my_session.query(class_to_print).all()
             for item in class_list:
                 key = "{}.{}".format(item.__class__.__name__, item.id)
-                dic.update({key: item})
+                dic[key] = item
         return dic
 
     def new(self, obj):
